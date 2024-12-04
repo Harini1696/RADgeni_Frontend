@@ -1,0 +1,81 @@
+<div class="chat-container">
+    <!-- <div class="controls">
+      <label for="previous-chats">Previous Chats:</label>
+      <select id="previous-chats">
+        <option>Chat 1</option>
+        <option>Chat 2</option>
+      </select>
+    </div> -->
+  
+    <div id="assistant-selector" class="selectors ">
+      <label class="col-sm-4 control-label" id="assistantLabel" for="selectAssistant">Choose Assistant:</label>
+      <select style="color: black;" [(ngModel)]="selectedAssistant" [formControl]="assistantFormControl" (change)="onAssistantSelection($event)">
+        <!-- <option [value]="" selected>--Select--</option> -->
+        <option *ngFor="let assistant of assistants" [value]="assistant">{{ assistant }}</option>
+      </select>
+      <br>
+      <br>
+  
+      <label>Select Model:</label>
+      <select style="color: black;" id="selectModel" [(ngModel)]="selectedModel" [disabled]="isModelDisabled" 
+        [formControl]="modelFormControl" (change)="onModelSelection($event)">
+        <!-- <option [value]=null selected>--Select--</option> -->
+        <option *ngFor="let model of models" [value]="model">{{ model }}</option>
+      </select>
+      <br>
+      <br>
+
+      <label>Choose Chat Option:</label>
+      <select style="color: black;" [(ngModel)]="selectedChatOption" [formControl]="chatFormControl"
+         [disabled]="isChatOptionDisabled" (change)="onChatOptionSelection()">
+        <!-- <option selected [value]=null>--Select--</option> -->
+        <option *ngFor="let option of chatOptions" [value]="option.value" [disabled]="option.disabled">{{ option.value }}</option>
+      </select>
+      <br>
+      <br>
+      <div *ngIf="showUploadOptions" class="radio-container">
+        <div>
+          <input type="radio" id="fileUpload" value="selectFile" [(ngModel)]="selectedUploadOption" (click)="checkSubmitAllowed()"/>
+          <label for="selectFile">Select File</label>
+        </div>
+        <div>
+          <input type="radio" id="folderUpload" value="selectFolder" [(ngModel)]="selectedUploadOption" (click)="checkSubmitAllowed()" />
+          <label for="selectFile">Select Folder</label>
+        </div>
+        <div class="button-container">
+          <input type="file" name="uploadFile" id="uploadFile" style="display: none;">
+          <input type="file" name="uploadFolder" id="uploadFolder" webkitdirectory  style="display: none;">
+          <button class="btn browse-btn" [disabled]="!selectedUploadOption" (click)="openFileOrFolderExplorer()">Browse</button>
+          <button class="btn submit-btn" [disabled]="!isSubmitAllowed">Submit</button>
+        </div>
+
+        <!-- Hidden file input for file selection -->
+        <input 
+        type="file" 
+        id="fileInput"
+        style="display: none;" 
+        (change)="onFileSelected($event)"
+        [attr.disabled]="selectedUploadOption === 'selectFolder' ? true : null" />
+
+        <!-- Hidden folder input for folder selection -->
+        <input 
+        type="file" 
+        id="folderInput"
+        webkitdirectory 
+        style="display: none;" 
+        (change)="onFolderSelected($event);" 
+        [attr.disabled]="selectedUploadOption === 'selectFile' ? true : null" />
+      </div>
+    </div>
+  
+    <!-- <div class="chat-box">
+      <ul>
+        <li *ngFor="let message of chatHistory">{{ message }}</li>
+      </ul>
+      <input [(ngModel)]="query" placeholder="Enter your questions..." />
+      <button (click)="sendMessage()">Send</button>
+    </div> -->
+  </div>
+
+  <app-chat-window *ngIf="showChatWindown"></app-chat-window>
+  

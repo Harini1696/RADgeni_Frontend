@@ -1,0 +1,44 @@
+
+    <div class="chat-body">
+      <!-- <div *ngFor="let chat of chatHistory" class="chat-entry">
+        <div class="user-question">You: {{ chat.question }}</div>
+        <div class="radgeni-response">{{ chat.answer }}</div>
+      </div> -->
+        <!-- Display each chat message as a separate box -->
+        <div *ngFor="let response of chatResponses" [ngClass]="{
+            'chat-box': true,
+            'question-box': response.type === 'question',
+            'answer-box': response.type === 'answer'
+          }"
+          >
+            <div [innerHTML]="response.text"></div>
+
+            <!-- Metadata for Radgeni responses -->
+            <div *ngIf="response.type === 'answer'" class="metadata">
+            <span>{{ response.timestamp }}</span>
+            <span>| Response Time: {{ response.responseTime }}</span>
+            </div>
+            </div>
+    </div>
+    <div class="chat-footer">
+     <!-- <span *ngIf="errorMessage" class="error" >{{errorMessage}}</span> -->
+      <input
+        type="text"
+        [(ngModel)]="userInput"
+        placeholder="Enter your questions"
+        class="chat-input"
+        (keyup.enter)="submitQuestion()"
+        [disabled]="disableQuestionBox"
+      />
+      <button (click)="submitQuestion()" class="send-button">
+        <i *ngIf="!isLoading" class="fas fa-paper-plane"></i>
+        <i *ngIf="isLoading" class="fas fa-spinner fa-spin"></i>
+      </button>
+      <br>
+      
+    </div>
+    <div>
+        <span *ngIf="errorMessage" class="error" >{{errorMessage}}</span>
+    </div>
+  <!-- </div> -->
+  

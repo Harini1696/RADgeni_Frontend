@@ -1,0 +1,36 @@
+<nav class="navbar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="GE Healthcare" />
+      <span><img class="radgeniLogo" src="assets/radgeni-logo.png" alt="RADgeni Assistant" /></span>
+    </div>
+    <div class="user-profile">
+      <span>Welcome <b>User</b></span>
+      <img src="assets/profile-icon.png" alt="User Profile" />
+    </div>
+  </nav>
+  <div></div>
+  <hr>
+  <div class="chatHistory">
+    <label style="font-weight: bold; color: #4a148c;" for="previous-chats">Previous Chats: </label>
+    <select id="previous-chats" [(ngModel)]="selectedChatId" (change)="onChatSelectionChange()">
+      <option [value]=0 selected>Current Chat..</option>
+      <!-- <option *ngFor="let chat of previousChats" [value]="chat.id">{{ chat.name }}</option> -->
+      <option *ngFor="let chat of previousChats" [value]=chat.id>
+        {{ chat.id === editingChatId ? editingChatName : chat.name }}
+      </option>
+    </select>
+    <i class="fa-solid fa-pen-to-square" (click)="editChatName()"></i>
+    <!-- Editable input field -->
+    <input
+    *ngIf="isEditing" style="width: 100px;margin-left: 10px;"
+    [(ngModel)]="editingChatName"
+    (blur)="saveEditedChatName()"
+    (keydown.enter)="saveEditedChatName()"
+    (keydown.esc)="cancelEditing()"
+  />
+    <button class="btn btn-primary" (click)="onNewChat()">+ New Chat</button>
+    <!-- <input type="text" class="search-box" placeholder="search text"> -->
+    <!-- <i class="fas fa-search search-icon"></i> -->
+  </div>
+  <app-chat-window *ngIf="showChatWindown" [selectedPreviousChat]="selectedPreviousChat"></app-chat-window>
+  
